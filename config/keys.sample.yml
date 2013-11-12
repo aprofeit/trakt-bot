@@ -1,0 +1,5 @@
+development:
+  TRAKT_API_KEY: http://trakt.tv/api-docs
+
+test:
+  TRAKT_API_KEY: abcde12345

@@ -21,3 +21,21 @@ module TraktBot
     # config.i18n.default_locale = :de
   end
 end
+
+module Keys
+  class MissingKeys < StandardError; end
+
+  KEYS = if Rails.env.production? 
+    ENV
+  else
+    begin
+      YAML.load_file('config/keys.yml')[Rails.env]
+    rescue Errno::ENOENT
+      raise MissingKeys.new('Need to specify keys in config/keys.yml')
+    end
+  end
+
+  def self.method_missing(method)
+    KEYS[method.upcase.to_s]
+  end
+end
