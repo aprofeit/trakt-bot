@@ -1,5 +1,9 @@
 development:
   TRAKT_API_KEY: http://trakt.tv/api-docs
+  TRANSMISSION_ENDPOINT: http://localhost:9091/transmission/rpc
+  REDISTOGO_URL: redis://:@localhost:16379
 
 test:
   TRAKT_API_KEY: abcde12345
+  TRANSMISSION_ENDPOINT: http://host.com:9091/transmission/rpc
+  REDISTOGO_URL: redis://:@localhost:16379
