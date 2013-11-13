@@ -1,4 +1,4 @@
-uri                     = URI.parse(Settings::KEYS['REDISTOGO_URL'])
+uri                     = URI.parse(Keys.redistogo_url)
 redis_params            = { host: uri.host, port: uri.port }
 redis_params[:password] = uri.password if Rails.env.production?
 

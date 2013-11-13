@@ -1,6 +1,6 @@
 module Trakt
   class Client
-    TODAYS_CALENDAR_ENDPOINT = "http://api.trakt.tv/user/calendar/shows.json/#{Keys.trakt_api_key}/aprofeit/today/1"
+    TODAYS_CALENDAR_ENDPOINT = "http://api.trakt.tv/user/calendar/shows.json/#{Keys.trakt_api_key}/aprofeit/20131110/1"
 
     def pending_episodes
       calendar = HTTParty.get(TODAYS_CALENDAR_ENDPOINT).parsed_response.first
@@ -8,7 +8,7 @@ module Trakt
       return nil if calendar.nil?
 
       pending_episodes = calendar['episodes'].select do |episode|
-        episode = Episode.new
+        episode = Episode.new(episode)
         episode.aired? && !episode.downloaded?
       end
 
@@ -34,11 +34,11 @@ module Trakt
     end
 
     def key
-
+      "#{@title} S#{'%02d' % @season}E#{'%02d' % @number}"
     end
 
     def search_string
-
+      URI.encode "#{@title} S#{'%02d' % @season}E#{'%02d' % @number}"
     end
 
     private
