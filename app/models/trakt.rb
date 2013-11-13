@@ -7,7 +7,7 @@ module Trakt
 
       pending_episodes = calendar['episodes'].select do |episode|
         episode = Episode.new(episode)
-        override_aired = true if date == 'today'
+        override_aired = true if date != 'today'
         episode.aired?(override_aired) && !episode.downloaded?
       end
 
