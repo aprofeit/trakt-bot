@@ -7,11 +7,19 @@ module Pirate
     def search_for_eligible_torrent(episode)
       search  = "#{SEARCH_ENDPOINT}#{episode.search_string}#{SORT_ORDER}"
       page    = get_with_logs(search)
-      seeders = page.search('tr')[1].search('td')[2].text.to_i
-      magnet  = page.links_with(href: /magnet/).first.href
+
+      begin
+        seeders = page.search('tr')[1].search('td')[2].text.to_i
+        magnet  = page.links_with(href: /magnet/).first.href
+      rescue NoMethodError => e
+        Rails.logger.info("[Pirate::Client] No torrents found")
+        return nil
+      end
 
       if seeders > TRUSTWORTHY_THRESHOLD
-        Torrent.new(magnet, episode.key)
+        torrent = Torrent.new(magnet, episode.key)
+        Rails.logger.info("[Pirate::Client] Found torrent: #{torrent.key} with #{seeders} seeds")
+        torrent
       else
         nil
       end
@@ -21,9 +29,9 @@ module Pirate
 
     def get_with_logs(search)
       start_time = Time.now
-      Rails.logger.info("GET #{search}")
+      Rails.logger.info("[Pirate::Client] GET #{search}")
       page = mechanize.get(search)
-      Rails.logger.info("--> Done in #{Time.now - start_time}s")
+      Rails.logger.info("[Pirate::Client] --> Done in #{Time.now - start_time}s")
       page
     end
 

@@ -7,8 +7,8 @@ module Trakt
 
       pending_episodes = calendar['episodes'].select do |episode|
         episode = Episode.new(episode)
-        context_time = date == 'today' ? Time.now : (Date.parse(date) + 1.day).end_of_day
-        episode.aired?(context_time) && !episode.downloaded?
+        override_aired = true if date == 'today'
+        episode.aired?(override_aired) && !episode.downloaded?
       end
 
       pending_episodes.map { |e| Episode.new(e) }
@@ -18,9 +18,9 @@ module Trakt
 
     def get_with_logs(date)
       start_time = Time.now
-      Rails.logger.info("GET #{calendar_endpoint(date)}")
+      Rails.logger.info("[Trakt::Client] GET #{calendar_endpoint(date)}")
       response = HTTParty.get(calendar_endpoint(date))
-      Rails.logger.info("--> Done in #{Time.now - start_time}s")
+      Rails.logger.info("[Trakt::Client] --> Done in #{Time.now - start_time}s")
       response
     end
 
@@ -38,8 +38,12 @@ module Trakt
       @aired_at = Time.at(trakt_episode['episode']['first_aired_utc'])  
     end
 
-    def aired?(context_time)
-      (context_time - @aired_at) > @runtime
+    def aired?(override = nil)
+      if override
+        true
+      else
+        (Time.now - @aired_at) > @runtime
+      end
     end
 
     def downloaded?
