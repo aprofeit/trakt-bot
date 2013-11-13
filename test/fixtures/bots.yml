@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  start_time: 2013-11-12 03:27:45
+  finish_time: 2013-11-12 03:27:45
+  log: MyText
+
+two:
+  start_time: 2013-11-12 03:27:45
+  finish_time: 2013-11-12 03:27:45
+  log: MyText

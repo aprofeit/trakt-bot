@@ -8,6 +8,9 @@ gem 'coffee-rails', '~> 4.0.0'
 gem 'jquery-rails'
 
 gem 'httparty'
+gem 'mechanize'
+
+gem 'redis'
 
 group :development do
   gem 'sqlite3'
