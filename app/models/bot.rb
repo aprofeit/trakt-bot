@@ -1,8 +1,6 @@
 class Bot
-  TODAYS_CALENDAR_ENDPOINT = "http://api.trakt.tv/user/calendar/shows.json/#{Keys.trakt_api_key}/aprofeit/today/1"
-
-  def queue_downloads
-    pending_episodes = trakt.pending_episodes
+  def queue_downloads(date = 'today')
+    pending_episodes = trakt.pending_episodes(date)
 
     pending_episodes.each do |pending_episode|
       if episode_torrent = pirate_bay.search_for_eligible_torrent(pending_episode)

@@ -1,18 +1,31 @@
 module Trakt
   class Client
-    TODAYS_CALENDAR_ENDPOINT = "http://api.trakt.tv/user/calendar/shows.json/#{Keys.trakt_api_key}/aprofeit/20131110/1"
+    def pending_episodes(date)
+      calendar = get_with_logs(date).parsed_response.first
 
-    def pending_episodes
-      calendar = HTTParty.get(TODAYS_CALENDAR_ENDPOINT).parsed_response.first
-
-      return nil if calendar.nil?
+      return [] if calendar.nil?
 
       pending_episodes = calendar['episodes'].select do |episode|
         episode = Episode.new(episode)
-        episode.aired? && !episode.downloaded?
+        context_time = date == 'today' ? Time.now : (Date.parse(date) + 1.day).end_of_day
+        episode.aired?(context_time) && !episode.downloaded?
       end
 
       pending_episodes.map { |e| Episode.new(e) }
+    end
+
+    private
+
+    def get_with_logs(date)
+      start_time = Time.now
+      Rails.logger.info("GET #{calendar_endpoint(date)}")
+      response = HTTParty.get(calendar_endpoint(date))
+      Rails.logger.info("--> Done in #{Time.now - start_time}s")
+      response
+    end
+
+    def calendar_endpoint(date)
+      "http://api.trakt.tv/user/calendar/shows.json/#{Keys.trakt_api_key}/aprofeit/#{date}/1"
     end
   end
 
@@ -25,8 +38,8 @@ module Trakt
       @aired_at = Time.at(trakt_episode['episode']['first_aired_utc'])  
     end
 
-    def aired?
-      (Time.now - @aired_at) > @runtime
+    def aired?(context_time)
+      (context_time - @aired_at) > @runtime
     end
 
     def downloaded?

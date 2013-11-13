@@ -5,8 +5,7 @@ module Transmission
         body: {
           'method' => 'torrent-add',
           'arguments' => {
-            'download-dir' => Keys.download_dir,
-            'filename'     => torrent.magnet
+            'filename' => torrent.magnet
           }
         }.to_json,
         headers: {

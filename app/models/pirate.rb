@@ -6,7 +6,7 @@ module Pirate
 
     def search_for_eligible_torrent(episode)
       search  = "#{SEARCH_ENDPOINT}#{episode.search_string}#{SORT_ORDER}"
-      page    = get_page_and_log_time(search)
+      page    = get_with_logs(search)
       seeders = page.search('tr')[1].search('td')[2].text.to_i
       magnet  = page.links_with(href: /magnet/).first.href
 
@@ -19,11 +19,11 @@ module Pirate
 
     private
 
-    def get_page_and_log_time(search)
+    def get_with_logs(search)
       start_time = Time.now
       Rails.logger.info("GET #{search}")
       page = mechanize.get(search)
-      Rails.logger.info("Done in #{Time.now - start_time}s\n")
+      Rails.logger.info("--> Done in #{Time.now - start_time}s")
       page
     end
 
