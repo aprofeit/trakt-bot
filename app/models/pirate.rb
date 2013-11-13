@@ -30,7 +30,14 @@ module Pirate
     def get_with_logs(search)
       start_time = Time.now
       Rails.logger.info("[Pirate::Client] GET #{search}")
-      page = mechanize.get(search)
+
+      begin
+        page = mechanize.get(search)
+      rescue Errno::ETIMEDOUT => e
+        Rails.logger.info("[Pirate::Client] --> Connection timed out :(")
+        return nil
+      end
+
       Rails.logger.info("[Pirate::Client] --> Done in #{Time.now - start_time}s")
       page
     end
