@@ -17,7 +17,7 @@ module Pirate
       end
 
       if seeders > TRUSTWORTHY_THRESHOLD
-        torrent = Torrent.new(magnet, episode.key)
+        torrent = Torrent.new(episode, magnet)
         Rails.logger.info("[Pirate::Client] Found torrent: #{torrent.key} with #{seeders} seeds")
         torrent
       else
@@ -48,11 +48,19 @@ module Pirate
   end
 
   class Torrent
-    attr_reader :magnet, :key
+    attr_reader :magnet, :episode
 
-    def initialize(magnet, key)
-      @magnet = magnet
-      @key    = key
+    def initialize(episode, magnet)
+      @magnet  = magnet
+      @episode = episode
+    end
+
+    def key
+      episode.key
+    end
+
+    def title
+      episode.title
     end
   end
 end

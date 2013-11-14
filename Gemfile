@@ -13,6 +13,8 @@ gem 'mechanize'
 
 gem 'redis'
 
+gem 'twilio-ruby'
+
 group :development do
   gem 'sqlite3'
   gem 'quiet_assets'

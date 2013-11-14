@@ -30,6 +30,8 @@ module Trakt
   end
 
   class Episode
+    attr_reader :title
+
     def initialize(trakt_episode)
       @title    = trakt_episode['show']['title']
       @runtime  = trakt_episode['show']['runtime'].minutes
