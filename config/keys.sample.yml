@@ -2,8 +2,14 @@ development:
   TRAKT_API_KEY: http://trakt.tv/api-docs
   TRANSMISSION_ENDPOINT: http://localhost:9091/transmission/rpc
   REDISTOGO_URL: redis://:@localhost:16379
+  TWILIO_ACCOUNT_SID: https://www.twilio.com/
+  TWILIO_AUTH_TOKEN: https://www.twilio.com/
+  TWILIO_NUMBER: +15005550006
 
 test:
   TRAKT_API_KEY: abcde12345
   TRANSMISSION_ENDPOINT: http://host.com:9091/transmission/rpc
   REDISTOGO_URL: redis://:@localhost:16379
+  TWILIO_ACCOUNT_SID: abcde12345
+  TWILIO_AUTH_TOKEN: abcde12345
+  TWILIO_NUMBER: +15005550006
