@@ -1,0 +1,76 @@
+$moss: #45B29D;
+$lightgray: lightgray;
+$yellow: #EFC94C;
+$blue: #334D5C;
+
+body {
+  margin-top: 0;
+  background-color: lighten($lightgray, 10);
+}
+
+h1, p, ul {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 300;
+}
+
+.muted {
+  color: darken($lightgray, 10);
+}
+
+.badge {
+  padding: 2px 5px;
+  color: white;
+  margin-left: 6px;
+}
+
+.badge-warning {
+  background-color: $yellow;
+}
+
+.badge-success {
+  background-color: $blue;
+}
+
+.box {
+  background-color: white;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.box-body {
+  padding: 10px 20px 20px;
+}
+
+.box-header-text {
+  font-weight: bold;
+  font-size: 32px;
+  margin: 0;
+  background-color: $moss;
+  color: white;
+  padding: 8px 0;
+  text-align: center;
+}
+
+.box-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.episode-header {
+  font-weight: 300;
+  font-size: 20px;
+}
+
+.episode-footer {
+  color: darken($lightgray, 60);
+  font-size: 14px;
+}
+
+@media only screen 
+and (min-device-width : 320px) 
+and (max-device-width : 480px) {
+  .no-mobile {
+    display: none;
+  }
+}

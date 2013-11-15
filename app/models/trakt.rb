@@ -14,6 +14,14 @@ module Trakt
       pending_episodes.map { |e| Episode.new(e) }
     end
 
+    def episodes(date = 'today')
+      calendar = get_with_logs(date).parsed_response.first
+
+      return nil if calendar.nil?
+
+      calendar['episodes'].map { |e| Episode.new(e) }
+    end
+
     private
 
     def get_with_logs(date)
@@ -30,14 +38,15 @@ module Trakt
   end
 
   class Episode
-    attr_reader :title
+    attr_reader :title, :overview, :aired_at, :number, :season
 
     def initialize(trakt_episode)
       @title    = trakt_episode['show']['title']
       @runtime  = trakt_episode['show']['runtime'].minutes
       @season   = trakt_episode['episode']['season']
       @number   = trakt_episode['episode']['number']
-      @aired_at = Time.at(trakt_episode['episode']['first_aired_utc'])  
+      @overview = trakt_episode['episode']['overview']
+      @aired_at = Time.at(trakt_episode['episode']['first_aired_utc'])
     end
 
     def aired?(override = nil)
