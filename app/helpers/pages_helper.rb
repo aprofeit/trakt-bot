@@ -8,14 +8,12 @@ module PagesHelper
   end
 
   def episode_done_badge(episode)
-    if episode.aired? && episode.downloaded?
-      content_tag(:span, class: 'badge badge-success') do
-        'downloaded'
-      end
+    text, klass = if episode.aired? && episode.downloaded?
+      ['downloaded', 'badge badge-success']
     elsif episode.aired?
-      content_tag(:span, class: 'badge badge-warning') do
-        'aired'
-      end
+      ['aired', 'badge badge-warning']
     end
+
+    content_tag(:span, text, class: klass)
   end
 end
