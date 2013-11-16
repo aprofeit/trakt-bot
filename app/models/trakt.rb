@@ -17,7 +17,7 @@ module Trakt
     def episodes(date = 'today')
       calendar = get_with_logs(date).parsed_response.first
 
-      return nil if calendar.nil?
+      return [] if calendar.nil?
 
       calendar['episodes'].map { |e| Episode.new(e) }
     end
