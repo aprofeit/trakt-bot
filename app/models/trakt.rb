@@ -62,11 +62,11 @@ module Trakt
     end
 
     def key
-      "#{@title.delete("'")} S#{'%02d' % @season}E#{'%02d' % @number}"
+      "#{@title} S#{'%02d' % @season}E#{'%02d' % @number}"
     end
 
     def search_string
-      URI.encode "#{@title} S#{'%02d' % @season}E#{'%02d' % @number}"
+      URI.encode "#{@title.delete("'")} S#{'%02d' % @season}E#{'%02d' % @number}"
     end
 
     private
