@@ -62,7 +62,7 @@ module Trakt
     end
 
     def key
-      "#{@title} S#{'%02d' % @season}E#{'%02d' % @number}"
+      "#{@title.delete("'")} S#{'%02d' % @season}E#{'%02d' % @number}"
     end
 
     def search_string
